@@ -1,5 +1,4 @@
-use alloc::vec::Vec;
-use core::ops::{Add, Mul, Neg, Sub};
+use std::ops::{Add, Mul, Neg, Sub};
 use rand::Rng;
 use fields::FieldElement;
 use arith::{U256, U512};

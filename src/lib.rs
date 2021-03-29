@@ -1,7 +1,5 @@
-#![no_std]
-
 #[macro_use]
-extern crate alloc;
+extern crate core;
 extern crate byteorder;
 #[macro_use]
 extern crate crunchy;
@@ -17,9 +15,9 @@ mod groups;
 use fields::FieldElement;
 use groups::{GroupElement, G1Params, G2Params, GroupParams};
 
-use alloc::vec::Vec;
-use core::ops::{Add, Mul, Neg, Sub};
+use std::ops::{Add, Mul, Neg, Sub};
 use rand::Rng;
+
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "rustc-serialize", derive(RustcDecodable, RustcEncodable))]
@@ -685,7 +683,6 @@ impl From<AffineG2> for G2 {
 #[cfg(test)]
 mod tests {
     extern crate rustc_hex as hex;
-    use alloc::vec::Vec;
     use super::{G1, Fq, G2, Fq2};
 
     fn hex(s: &'static str) -> Vec<u8> {

@@ -1,8 +1,7 @@
 use fields::{const_fq, FieldElement, Fq, Fq12, Fq2, Fr, fq2_nonresidue};
 use arith::U256;
-use core::{fmt, ops::{Add, Mul, Neg, Sub}};
+use std::{fmt, ops::{Add, Mul, Neg, Sub}};
 use rand::Rng;
-use alloc::vec::Vec;
 
 #[cfg(feature = "rustc-serialize")]
 use rustc_serialize::{Decodable, Decoder, Encodable, Encoder};
