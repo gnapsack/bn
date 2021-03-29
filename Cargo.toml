@@ -1,5 +1,5 @@
 [package]
-name = "std-bn"
+name = "witnet-bn"
 version = "0.4.5"
 authors = ["Sean Bowe <ewillbefull@gmail.com>"]
 description = "Pairing cryptography with the Barreto-Naehrig curve"

@@ -22,7 +22,7 @@ impl From<[u64; 4]> for U256 {
 
 impl From<u64> for U256 {
     fn from(d: u64) -> Self {
-        U256::from([d, 0, 0, 0])
+        U256::from([0, 0, 0, d])
     }
 }
 
