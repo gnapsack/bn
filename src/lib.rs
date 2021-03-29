@@ -60,6 +60,11 @@ impl Fr {
             .to_big_endian(slice)
             .map_err(|_| FieldError::InvalidSliceLength)
     }
+    pub fn to_vec(&self) -> Vec<u8> {
+        self.0
+            .raw()
+            .to_vec()
+    }
     pub fn new(val: arith::U256) -> Option<Self> {
         fields::Fr::new(val).map(|x| Fr(x))
     }

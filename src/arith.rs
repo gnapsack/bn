@@ -291,6 +291,14 @@ impl U256 {
         Ok(())
     }
 
+    pub fn to_vec(&self) -> Vec<u8> {
+        let mut v = vec![0u8; 32];
+        for (l, i) in (0..2).rev().zip((0..2).map(|i| i * 16)) {
+            BigEndian::write_u128(&mut v[i..], self.0[l]);
+        }
+        v
+    }
+
     #[inline]
     pub fn zero() -> U256 {
         U256([0, 0])
@@ -640,6 +648,19 @@ fn to_big_endian() {
     assert_eq!(
         s,
         [
+            0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8,
+            0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 1u8,
+        ]
+    );
+}
+
+#[test]
+fn to_vec() {
+    let num = U256::one();
+    let v = num.to_vec();
+    assert_eq!(
+        v,
+        vec![
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8,
             0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 0u8, 1u8,
         ]
