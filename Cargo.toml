@@ -1,12 +1,12 @@
 [package]
-name = "witnet-bn"
-version = "0.4.5"
+name = "std-bn"
+version = "0.4.6"
 authors = ["Sean Bowe <ewillbefull@gmail.com>"]
 description = "Pairing cryptography with the Barreto-Naehrig curve"
 keywords = ["pairing","crypto","cryptography"]
 readme = "README.md"
 homepage = "https://github.com/zcash/bn"
-repository = "https://github.com/witnet/bn"
+repository = "https://github.com/gnapsack/bn"
 license = "MIT OR Apache-2.0"
 
 [features]

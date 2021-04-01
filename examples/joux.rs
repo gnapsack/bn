@@ -1,4 +1,4 @@
-extern crate witnet_bn as bn;
+extern crate std_bn as bn;
 extern crate rand;
 use bn::{Group, Fr, G1, G2, pairing};
 

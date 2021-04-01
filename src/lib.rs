@@ -181,6 +181,16 @@ impl Fq {
         a.to_big_endian(slice)
             .map_err(|_| FieldError::InvalidSliceLength)
     }
+    pub fn to_vec(&self) -> Vec<u8> {
+        let mut a: arith::U256 = self.0.into();
+        // convert from Montgomery representation
+        a.mul(
+            &fields::Fq::one().raw(),
+            &fields::Fq::modulus(),
+            self.0.inv(),
+        );
+        a.to_vec()
+    }
     pub fn from_u256(u256: arith::U256) -> Result<Self, FieldError> {
         Ok(Fq(fields::Fq::new(u256).ok_or(FieldError::NotMember)?))
     }
@@ -386,6 +396,18 @@ impl G1 {
             return Err(CurveError::InvalidEncoding);
         }
         AffineG1::new(x, y).map_err(|_| CurveError::NotMember).map(Into::into)
+    }
+
+    pub fn compress(self) -> Option<Vec<u8>> {
+        let point = AffineG1::from_jacobian(self)?;
+        let mut compressed = point.x().to_vec();
+        let sign = match point.y().into_u256().get_bit(0) {
+            Some(false) => 2,
+            Some(true)  => 3,
+            None        => return None // This will never happen
+        };
+        compressed.insert(0, sign);
+        Some(compressed)
     }
 }
 
@@ -702,6 +724,14 @@ mod tests {
         assert_eq!(g1.x(), Fq::from_str("21888242871839275222246405745257275088696311157297823662689037894645226208582").unwrap());
         assert_eq!(g1.y(), Fq::from_str("3969792565221544645472939191694882283483352126195956956354061729942568608776").unwrap());
         assert_eq!(g1.z(), Fq::one());
+    }
+
+    #[test]
+    fn g1_compress() {
+        let raw = hex("0230644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd46");
+        let g1 = G1::from_compressed(&raw).unwrap();
+        let compressed = g1.compress().unwrap();
+        assert_eq!(raw, compressed);
     }
 
 
